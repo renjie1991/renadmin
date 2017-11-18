@@ -17,7 +17,7 @@ return [
     // 应用命名空间
     'app_namespace'          => 'app',
     // 应用调试模式
-    'app_debug'              => false,
+    'app_debug'              => true,
     // 应用Trace
     'app_trace'              => false,
     // 应用模式状态
@@ -237,5 +237,23 @@ return [
         'type'      => 'bootstrap',
         'var_page'  => 'page',
         'list_rows' => 15,
+    ],
+
+    //验证码
+    'captcha'  => [
+        // 过期时间
+        'expire'   => 15, 
+        // 字体大小
+        'fontSize' => 18,
+        // 是否添加混淆曲线
+        'useCurve' => true,
+        // 是否添加杂点
+        'useNoise' => true,
+        // 验证码图片高度
+        'imageH' => 32,
+        // 验证码图片宽度
+        'imageW' => 123,
+        // 验证码长度（位数）
+        'length'   => 4,
     ],
 ];
