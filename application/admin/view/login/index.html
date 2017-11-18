@@ -21,7 +21,7 @@
     </script>
     
     <style>
-        *{color:#333;}
+        .code{color:#333;}
     </style>
 </head>
 
@@ -51,8 +51,8 @@
                     <input type="text" class="form-control uname" placeholder="用户名" name="username" id="username"/>
                     <input type="password" class="form-control pword m-b" placeholder="密码" name="password" id="password"/>
                     <div>
-                        <input type="text" class="form-control captcha" placeholder="验证码" style="width: 45%;display: inline-block;margin-top: 0" name="captcha" id="captcha" maxlength="4" />  
-                        <img src="{:captcha_src()}" alt="" style="vertical-align: top" id="captcha-img">
+                        <input type="text" class="form-control code" placeholder="验证码" style="width: 45%;display: inline-block;margin-top: 0" name="code" id="code" maxlength="4" />  
+                        <img src="{:captcha_src()}" alt="" style="vertical-align: top" id="code-img">
                     </div>
                               
                     <button type="button" class="btn btn-success btn-block do-submit">登录</button>
@@ -74,23 +74,49 @@
 
 <script>
 $(function(){
-    $('.do-submit').click(function(){       
+    var code_src = $('#code-img').attr('src');
+    $('#code-img').click(function(){
+        $(this).attr('src',code_src+'?r='+Math.random());
+    })
+
+    $('.do-submit').click(function(){  
+        var data = {};     
         var username = $('#username').val();
         if(username == ''){
             layer.msg('请输入用户名');
             $('#username').focus();
             return false;
         }
+        data.username = username;
+        var password = $('#password').val();
+        if(password == ''){
+            layer.msg('请输入密码');
+            $('#password').focus();
+            return false;
+        }
+        data.password = password;
+        var code = $('#code').val();
+        if(code == ''){
+            layer.msg('请输入验证码');
+            $('#code').focus();
+            return false;
+        }
+        data.code = code;
+        var url = "{:url('Login/index')}";
+        $.post(url,{data:data},function(res){
+            layer.msg(res.msg);
+            if(res.code == 0){
+                setTimeout(function(){
+                    location.href = "{:url('Index/index')}";
+                }, 1000)
+            }else{
+                $('#code-img').attr('src',code_src+'?r='+Math.random());
+            }
+        },'json')
     })
 
-    var captcha_src = $('#captcha-img').attr('src');
-    $('#captcha-img').click(function(){
-        $(this).attr('src',captcha_src+'?r='+Math.random());
-    })
+    
 })
 
-function a(){
-
-}
 
 </script>
