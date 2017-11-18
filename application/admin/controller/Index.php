@@ -11,4 +11,9 @@ class Index extends Base
     public function welcome(){
     	return $this->fetch();
     }
+
+    public function logout(){
+    	session('admin_info',null);
+    	$this->redirect('Login/index');
+    }
 }
